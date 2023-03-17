@@ -23,12 +23,28 @@ export default function MovieDetails() {
 
   const backLinkHref = location.state?.from ?? '/movies';
 
+  // useEffect(() => {
+  //   async function fetchInfo() {
+  //     try {
+  //       getMovieId(movieId).then(data => setMovie(data));
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchInfo();
+  // }, [movieId]);
+
   useEffect(() => {
-    try {
-      getMovieId(movieId).then(data => setMovie(data));
-    } catch (error) {
-      console.log(error);
+    async function fetchInfo() {
+      try {
+        const data = await getMovieId(movieId);
+
+        setMovie(data);
+      } catch (e) {
+        console.log(e);
+      }
     }
+    fetchInfo();
   }, [movieId]);
 
   if (movie === null) {

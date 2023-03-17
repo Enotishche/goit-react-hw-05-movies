@@ -29,5 +29,11 @@ export default function MovieList({ movies }) {
 }
 
 MovieList.propTypes = {
-  movies: PropTypes.array.isRequired,
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      poster_path: PropTypes.string,
+      title: PropTypes.string,
+      id: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
