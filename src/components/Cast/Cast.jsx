@@ -14,19 +14,37 @@ import {
 const Cast = () => {
   const { movieId } = useParams();
   const [actors, setActors] = useState(null);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // useEffect(() => {
+  //   try {
+  //     getCast(movieId).then(data => setActors(data.cast));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [movieId]);
 
   useEffect(() => {
-    try {
-      getCast(movieId).then(data => setActors(data.cast));
-    } catch (error) {
-      console.log(error);
-    }
-  }, [movieId]);
+    setIsLoading(true);
 
+    const fetchMovieCast = async () => {
+      try {
+        const data = await getCast(movieId);
+        setActors(data.cast);
+      } catch (error) {
+        setError('Something wrong');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMovieCast();
+  }, [movieId]);
+  console.log(actors);
   if (actors === null) {
     return;
   }
-
+  console.log('after!!!');
   return (
     <CastBox>
       {actors.length > 0 ? (

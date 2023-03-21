@@ -2,6 +2,7 @@ import { useLocation, useParams, Outlet } from 'react-router-dom';
 import { useState, useEffect, Suspense } from 'react';
 import { getMovieId, getPoster } from '../../api/FetchAPI';
 import { Loader } from '../../components/Loader/Loader';
+import MovieInfo from '../../components/MovieInfo/MovieInfo';
 import {
   BackLink,
   MovieBox,
@@ -46,20 +47,23 @@ export default function MovieDetails() {
     }
     fetchInfo();
   }, [movieId]);
+  // debugger;
+  // if (movie === null) {
+  //   return;
+  // }
 
-  if (movie === null) {
-    return;
-  }
-
-  const { poster_path, title, vote_average, overview, genres, release_date } =
-    movie;
-  const img = getPoster(poster_path);
-  const releaseDate = new Date(release_date).getFullYear();
+  // const { poster_path, title, vote_average, overview, genres, release_date } =
+  //   movie;
+  // const img = getPoster(poster_path);
+  // const releaseDate = new Date(release_date).getFullYear();
 
   return (
     <main className="container">
       <BackLink to={backLinkHref}>&larr; Back to</BackLink>
-      <MovieBox>
+
+      {movie && <MovieInfo movie={movie} backPath={backLinkHref} />}
+
+      {/* <MovieBox>
         <MoviePoster src={img} alt="title" />
         <div>
           <MovieTitle>
@@ -83,7 +87,8 @@ export default function MovieDetails() {
             </>
           )}
         </div>
-      </MovieBox>
+      </MovieBox> */}
+
       <AdditionalBox>
         <MovieSubtitle>Additional information</MovieSubtitle>
         <AdditionalLink to="cast" state={{ from: backLinkHref }}>

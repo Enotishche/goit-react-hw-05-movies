@@ -69,10 +69,9 @@ export default function MoviePage() {
       <SearchBar onSubmit={searchMovies} />
       {loadings && <Loader />}
       {error && <InfoTitle>{error}</InfoTitle>}
+
       {movies.length > 0 && <MovieList movies={movies} />}
-      {movies.length === 0 && !loadings && !error && (
-        <InfoTitle>There is nothing here yet </InfoTitle>
-      )}
+
       {totalMovies > 0 && page !== totalMovies && !loadings && !error && (
         <LoadMore onClick={loadMore} />
       )}
