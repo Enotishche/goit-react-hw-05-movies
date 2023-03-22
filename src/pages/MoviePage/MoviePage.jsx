@@ -12,7 +12,6 @@ import { LoadMore } from '../../components/LoadMore/LoadMore';
 export default function MoviePage() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
-  const [totalMovies, setTotalMovies] = useState(0);
   const [loadings, setLoadings] = useState(false);
   const [error, setError] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,33 +23,37 @@ export default function MoviePage() {
       return;
     }
 
-    setLoadings(true);
+    const moviesQuery = async () => {
+      setLoadings(true);
+      try {
+        const data = await getSearchMovies(querySearch, page)
 
-    try {
-      getSearchMovies(querySearch, page).then(({ results, total_pages }) => {
+        if (data.results.length === 0) {
+                  setError(`No results to show for "${querySearch}!"`);
+                  return;
+                }
+
+        page === 1
+          ? setMovies(data.results)
+          : setMovies((state) => [...state, ...data.results]);
+
+         } catch (error) {
+          console.log(error);
+        toast.error("Something wrong!");
+      } finally {
         setLoadings(false);
-
-        if (results.length === 0) {
-          setError(`No results to show for "${querySearch}!"`);
-          return;
-        }
-        if (page > 1) {
-          return setMovies(prevMovies => [...prevMovies, ...results]);
-        }
-
-        setMovies(results);
-
-        setTotalMovies(total_pages);
-      });
-    } catch (error) {
-      toast.error(error);
-      setLoadings(false);
-    }
+      }
+    };
+    moviesQuery();
   }, [querySearch, page]);
 
+
+
+
   const searchMovies = newMovies => {
+    
     if (querySearch === newMovies) {
-      toast.info(`Movies matching '${querySearch}' have already been found`);
+      toast.info(`Movies!! matching '${querySearch}' have already been found`);
       return;
     }
 
@@ -61,6 +64,7 @@ export default function MoviePage() {
   };
 
   const loadMore = () => {
+    
     setPage(prevPage => prevPage + 1);
   };
 
@@ -70,11 +74,8 @@ export default function MoviePage() {
       {loadings && <Loader />}
       {error && <InfoTitle>{error}</InfoTitle>}
 
-      {movies.length > 0 && <MovieList movies={movies} />}
-
-      {totalMovies > 0 && page !== totalMovies && !loadings && !error && (
-        <LoadMore onClick={loadMore} />
-      )}
+      {movies.length > 0 && <MovieList movies={movies}/>}
+      {movies.length > 0 && <LoadMore onClick={loadMore} />}
     </main>
   );
 }

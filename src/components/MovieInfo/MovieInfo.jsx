@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container, Content, Link } from './MovieInfo.styled';
-//import defaultPicture from '../../images/no-poster.jpg';
+import defaultPicture from '../../images/noImage.jpg';
 import PropTypes from 'prop-types';
 import { getMovieId, getPoster } from '../../api/FetchAPI';
 
 import {
-  BackLink,
+  // BackLink,
   MovieBox,
   MoviePoster,
   MovieTitle,
@@ -14,8 +14,8 @@ import {
   MovieText,
   MovieList,
   MovieItem,
-  AdditionalLink,
-  AdditionalBox,
+  // AdditionalLink,
+  // AdditionalBox,
 } from '../../pages/MovieDetails/MovieDetails.styled';
 
 const MovieInfo = ({ movie, backPath }) => {
@@ -26,12 +26,16 @@ const MovieInfo = ({ movie, backPath }) => {
 
   return (
     <MovieBox>
-      <MoviePoster src={img} alt="title" />
+      <MoviePoster
+        //src={img} alt="title" />
+        src={img ? img : defaultPicture}
+        alt={title}
+      />
       <div>
         <MovieTitle>
           {title} ({releaseDate})
         </MovieTitle>
-        <MovieScore>2User score: {Math.round(vote_average * 10)}%</MovieScore>
+        <MovieScore>User score: {Math.round(vote_average * 10)}%</MovieScore>
         {overview && (
           <>
             <MovieSubtitle>Overview</MovieSubtitle>
