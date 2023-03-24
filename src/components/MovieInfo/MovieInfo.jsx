@@ -12,10 +12,9 @@ import {
   MovieText,
   MovieList,
   MovieItem,
-
 } from '../../pages/MovieDetails/MovieDetails.styled';
 
-const MovieInfo = ({ movie, backPath }) => {
+const MovieInfo = ({ movie }) => {
   const { poster_path, title, vote_average, overview, genres, release_date } =
     movie;
   const img = getPoster(poster_path);
@@ -23,12 +22,7 @@ const MovieInfo = ({ movie, backPath }) => {
 
   return (
     <MovieBox>
-      <MoviePoster 
-      src={
-        img
-            ? img
-            : defaultPicture
-          } alt={title} />
+      <MoviePoster src={img ? img : defaultPicture} alt={title} />
       <div>
         <MovieTitle>
           {title} ({releaseDate})
@@ -63,7 +57,6 @@ MovieInfo.propTypes = {
     genres: PropTypes.array,
     overview: PropTypes.string,
   }).isRequired,
-  backPath: PropTypes.object.isRequired,
 };
 
 export default MovieInfo;

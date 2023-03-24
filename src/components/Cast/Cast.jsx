@@ -25,9 +25,8 @@ const Cast = () => {
       try {
         const data = await getCast(movieId);
         setActors(data.cast);
-      } catch (error){
+      } catch (error) {
         setError('Something wrong');
-        console.log(error);
       } finally {
         setIsLoading(false);
       }
@@ -41,10 +40,10 @@ const Cast = () => {
       {error && <p>Something went wrong</p>}
       {actors && actors.length > 0 ? (
         <CastList>
-          {actors.map(({ id, name, profile_path, character }) => {
+          {actors.map(({ cast_id, name, profile_path, character }) => {
             const img = getPoster(profile_path);
             return (
-              <CastItem key={id}>
+              <CastItem key={cast_id}>
                 <CastImg src={img} alt={name} />
                 <CastName>{name}</CastName>
                 <CastText>

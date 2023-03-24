@@ -26,20 +26,18 @@ export default function MoviePage() {
     const moviesQuery = async () => {
       setLoadings(true);
       try {
-        const data = await getSearchMovies(querySearch, page)
+        const data = await getSearchMovies(querySearch, page);
 
         if (data.results.length === 0) {
-                  setError(`No results to show for "${querySearch}!"`);
-                  return;
-                }
+          setError(`No results to show for "${querySearch}!"`);
+          return;
+        }
 
         page === 1
           ? setMovies(data.results)
-          : setMovies((state) => [...state, ...data.results]);
-
-         } catch (error) {
-          console.log(error);
-        toast.error("Something wrong!");
+          : setMovies(state => [...state, ...data.results]);
+      } catch (error) {
+        setError(error);
       } finally {
         setLoadings(false);
       }
@@ -48,7 +46,6 @@ export default function MoviePage() {
   }, [querySearch, page]);
 
   const searchMovies = newMovies => {
-    
     if (querySearch === newMovies) {
       toast.info(`Movies!! matching '${querySearch}' have already been found`);
       return;
@@ -61,7 +58,6 @@ export default function MoviePage() {
   };
 
   const loadMore = () => {
-    
     setPage(prevPage => prevPage + 1);
   };
 
@@ -69,9 +65,8 @@ export default function MoviePage() {
     <main className="container">
       <SearchBar onSubmit={searchMovies} />
       {loadings && <Loader />}
-      {error && <InfoTitle>{error}</InfoTitle>}
-
-      {movies.length > 0 && <MovieList movies={movies}/>}
+      {error && <InfoTitle> {toast.error(error)} </InfoTitle>}
+      {movies.length > 0 && <MovieList movies={movies} />}
       {movies.length > 0 && <LoadMore onClick={loadMore} />}
     </main>
   );

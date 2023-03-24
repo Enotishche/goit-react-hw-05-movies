@@ -12,6 +12,7 @@ import {
 
 const Reviews = () => {
   const { movieId } = useParams();
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState(null);
 
@@ -22,7 +23,7 @@ const Reviews = () => {
         const data = await getReviews(movieId);
         setReviews(data.results);
       } catch (error) {
-        console.log(error);
+        setError('Something wrong');
       } finally {
         setIsLoading(false);
       }
@@ -32,7 +33,8 @@ const Reviews = () => {
 
   return (
     <>
-     {isLoading && <Loader />}
+      {isLoading && <Loader />}
+      {error && <p>Something went wrong</p>}
       {reviews && reviews.length > 0 ? (
         <ReviewsList>
           {reviews.map(({ author, content, id }) => {
