@@ -29,7 +29,7 @@ export const App = () => {
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        <ToastContainer />
+        <ToastContainer autoClose={1000} />
       </Suspense>
     </>
   );

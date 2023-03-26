@@ -19,14 +19,15 @@ const Cast = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
+    // setIsLoading(true);
 
     const fetchMovieCast = async () => {
+      setIsLoading(true);
       try {
         const data = await getCast(movieId);
         setActors(data.cast);
       } catch (error) {
-        setError('Something wrong');
+        setError(error);
       } finally {
         setIsLoading(false);
       }
@@ -37,7 +38,7 @@ const Cast = () => {
   return (
     <CastBox>
       {isLoading && <Loader />}
-      {error && <p>Something went wrong</p>}
+      {error && <p>Oops...Something went wrong</p>}
       {actors && actors.length > 0 ? (
         <CastList>
           {actors.map(({ cast_id, name, profile_path, character }) => {

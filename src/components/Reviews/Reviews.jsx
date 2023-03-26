@@ -23,7 +23,7 @@ const Reviews = () => {
         const data = await getReviews(movieId);
         setReviews(data.results);
       } catch (error) {
-        setError('Something wrong');
+        setError(error);
       } finally {
         setIsLoading(false);
       }
@@ -34,7 +34,7 @@ const Reviews = () => {
   return (
     <>
       {isLoading && <Loader />}
-      {error && <p>Something went wrong</p>}
+      {error && <p>Oops...Something went wrong</p>}
       {reviews && reviews.length > 0 ? (
         <ReviewsList>
           {reviews.map(({ author, content, id }) => {

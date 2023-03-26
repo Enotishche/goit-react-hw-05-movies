@@ -12,14 +12,14 @@ import {
 export default function MovieList({ movies }) {
   const location = useLocation();
 
-  const movieItem = movies.map(({ id, poster_path, title }) => {
+  const movieItem = movies.map(({ id, poster_path, title, name }) => {
     const img = getPoster(poster_path);
 
     return (
       <MovieItem key={id}>
         <MovieLink to={`/movies/${id}`} state={{ from: location }}>
           <MovieImg src={img} alt={title} />
-          <MovieTitle>{title}</MovieTitle>
+          <MovieTitle>{title || name }</MovieTitle>
         </MovieLink>
       </MovieItem>
     );
@@ -28,9 +28,6 @@ export default function MovieList({ movies }) {
   return <MovieContainer>{movieItem}</MovieContainer>;
 }
 
-// MovieList.propTypes = {
-//   movies: PropTypes.array.isRequired,
-// };
 
 MovieList.propTypes = {
   movies: PropTypes.arrayOf(

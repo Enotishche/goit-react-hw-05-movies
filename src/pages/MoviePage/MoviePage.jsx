@@ -6,7 +6,7 @@ import { getSearchMovies } from '../../api/FetchAPI';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { Loader } from '../../components/Loader/Loader';
 import MovieList from '../../components/MovieList/MovieList';
-import { InfoTitle } from './MoviePage.styled.jsx';
+
 import { LoadMore } from '../../components/LoadMore/LoadMore';
 
 export default function MoviePage() {
@@ -29,7 +29,7 @@ export default function MoviePage() {
         const data = await getSearchMovies(querySearch, page);
 
         if (data.results.length === 0) {
-          setError(`No results to show for "${querySearch}!"`);
+          toast(`No results to show for "${querySearch}!"`);
           return;
         }
 
@@ -65,7 +65,7 @@ export default function MoviePage() {
     <main className="container">
       <SearchBar onSubmit={searchMovies} />
       {loadings && <Loader />}
-      {error && <InfoTitle> {toast.error(error)} </InfoTitle>}
+      {error && <p>Oops...Something went wrong</p>}
       {movies.length > 0 && <MovieList movies={movies} />}
       {movies.length > 0 && <LoadMore onClick={loadMore} />}
     </main>
